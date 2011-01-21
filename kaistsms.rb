@@ -61,11 +61,18 @@ class KaistMail
 	end
 end
 
-m=KaistMail.new
+
 if ARGV.length!=5
-		  puts "wrong arguements\n[Kaist Mail ID] [Kaist Mail PW] [Send Phone Num] [Recv Phone Nums] [Message]\nYou can use seperator ';' for multiple recv phone nums" 
+		puts "wrong arguements"
+		puts "[Kaist Mail ID] [Kaist Mail PW] [Send Phone Num] [Recv Phone Nums] [Message]"
+		puts "You can use seperator ';' for multiple recv phone nums" 
+		puts "Ex) ruby kaistsms.rb hahah 123456 01012341234 01012341234;01043214321 hello"
+		exit
+end
+
 
 id,pw,shp,rhp,msg = ARGV
 
+m=KaistMail.new
 m.login(id,pw)
-m.sendSMS(shp,rhp,msg)
+m.sendSMS(shp,rhp,msg.encode("UTF-8"))
