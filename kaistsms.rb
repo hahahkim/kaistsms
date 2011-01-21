@@ -12,6 +12,7 @@ class KaistMail
 			f.action = 'https://mail.kaist.ac.kr/nara/servlet/user.UserServ'
 			f.cmd = 'login'
 		end.submit
+		self.login?
 	end
 
 	def login?
@@ -61,18 +62,24 @@ class KaistMail
 	end
 end
 
+if __FILE__==$0
+  # Find the parent directory of this file and add it to the front
+  # of the list of locations to look in when using require
+  $:.unshift File.join(File.dirname(__FILE__),'..')   
 
-if ARGV.length!=5
-		puts "wrong arguements"
-		puts "[Kaist Mail ID] [Kaist Mail PW] [Send Phone Num] [Recv Phone Nums] [Message]"
-		puts "You can use seperator ';' for multiple recv phone nums" 
-		puts "Ex) ruby kaistsms.rb hahah 123456 01012341234 01012341234;01043214321 hello"
-		exit
+
+	if ARGV.length!=5
+			puts "wrong arguements"
+			puts "[Kaist Mail ID] [Kaist Mail PW] [Send Phone Num] [Recv Phone Nums] [Message]"
+			puts "You can use seperator ';' for multiple recv phone nums" 
+			puts "Ex) ruby kaistsms.rb hahah 123456 01012341234 01012341234;01043214321 hello"
+			exit
+	end
+
+
+	id,pw,shp,rhp,msg = ARGV
+
+	m=KaistMail.new
+	m.login(id,pw)
+	m.sendSMS(shp,rhp,msg)
 end
-
-
-id,pw,shp,rhp,msg = ARGV
-
-m=KaistMail.new
-m.login(id,pw)
-m.sendSMS(shp,rhp,msg)
