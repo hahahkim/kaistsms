@@ -21,5 +21,45 @@ class KaistMail
 				true
 		end
 	end
+	
+	def sendSMS(sendhp, recvhp, msg)
+		unless self.login?
+			puts "Login Fail"
+			return false
+		end
+		
+		if msg.bytesize > 80
+			puts "message is too long"
+			return false
+		end
+
+		sms=@login.link(:text => 'SMS').click
+		recvhparr=recvhp.split(";").delete_if{|n| !(n=~/^\d+$/)}
+		
+		if recvhparr.empty?
+			puts "Input recieve hp"
+		end
+		
+		res=sms.form('f') do |f|
+			f.sendHp=sendhp
+			f.msglen=msg.bytesize
+			f.toMessage=msg
+			f.receiveHp=recvhparr
+			f.radiobutton('type').value='0'
+		end.submit
+		
+		try,success,remain=res.search('//td[@height="24"]/span[@class="t_menu_vioB"]').map(&:text).map(&:to_i)
+		if try==success
+			puts "Send Message Success. #{success} Sent, #{remain} Remains."
+			return true
+		else
+			puts "#{success} of #{try} Sent, #{remain} Remains."
+			return false
+		end
+
+
+	end
 end
+
+
 
