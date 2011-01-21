@@ -61,5 +61,11 @@ class KaistMail
 	end
 end
 
+m=KaistMail.new
+if ARGV.length!=5
+		  puts "wrong arguements\n[Kaist Mail ID] [Kaist Mail PW] [Send Phone Num] [Recv Phone Nums] [Message]\nYou can use seperator ';' for multiple recv phone nums" 
 
+id,pw,shp,rhp,msg = ARGV
 
+m.login(id,pw)
+m.sendSMS(shp,rhp,msg)
