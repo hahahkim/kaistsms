@@ -43,7 +43,7 @@ class KaistMail
 		res=sms.form('f') do |f|
 			f.sendHp=sendhp
 			f.msglen=msg.bytesize
-			f.toMessage=msg
+			f.toMessage=msg.encode("UTF-8")
 			f.receiveHp=recvhparr
 			f.radiobutton('type').value='0'
 		end.submit
@@ -75,4 +75,4 @@ id,pw,shp,rhp,msg = ARGV
 
 m=KaistMail.new
 m.login(id,pw)
-m.sendSMS(shp,rhp,msg.encode("UTF-8"))
+m.sendSMS(shp,rhp,msg)
