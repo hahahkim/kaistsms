@@ -38,7 +38,8 @@ class KaistMail
 		recvhparr=recvhp.split(";").delete_if{|n| !(n=~/^\d+$/)}
 		
 		if recvhparr.empty?
-			puts "Input recieve hp"
+			puts "Input receive phone number"
+			return false
 		end
 		
 		res=sms.form('f') do |f|
