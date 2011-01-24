@@ -12,7 +12,7 @@ class KaistMail
 			f.action = 'https://mail.kaist.ac.kr/nara/servlet/user.UserServ'
 			f.cmd = 'login'
 		end.submit
-		self.login?
+		login?
 	end
 
 	def login?
@@ -24,7 +24,7 @@ class KaistMail
 	end
 	
 	def sendSMS(sendhp, recvhp, msg)
-		unless self.login?
+		unless login?
 			puts "Login Fail"
 			return false
 		end
