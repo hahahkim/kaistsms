@@ -16,11 +16,7 @@ class KaistMail
 	end
 
 	def login?
-		if @login.body=~/img_msgError.gif/
-				false
-		else
-				true
-		end
+		@login.body !~ /img_msgError.gif/
 	end
 	
 	def sendSMS(sendhp, recvhp, msg)
@@ -33,14 +29,14 @@ class KaistMail
 			puts "message is too long"
 			return false
 		end
-
-		sms=@login.link(:text => 'SMS').click
-		recvhparr=recvhp.split(";").delete_if{|n| !(n=~/^\d+$/)}
+		recvhparr=recvhp.split(";").delete_if{|n| n !~/^\d+$/}
 		
 		if recvhparr.empty?
 			puts "Input receive phone number"
 			return false
 		end
+
+		sms=@login.link(:text => 'SMS').click
 		
 		res=sms.form('f') do |f|
 			f.sendHp=sendhp
@@ -58,8 +54,6 @@ class KaistMail
 			puts "#{success} of #{try} Sent, #{remain} Remains."
 			return false
 		end
-
-
 	end
 end
 
